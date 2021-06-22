@@ -65,11 +65,26 @@
             </div>
             <!-- Amado Nav -->
             <nav class="amado-nav">
-                <ul>
+                <ul>{% if is_index%}
                     <li class="active"><a href="{% url 'index' %}">Home</a></li>
+                    {% else %}
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    {% endif %}
+                    {% if is_shop%}
+                    <li class="active"><a href="{% url 'shop' %}">Shop</a></li>
+                    {% else %}
                     <li><a href="{% url 'shop' %}">Shop</a></li>
+                    {% endif %}
+                    {% if is_cart%}
+                    <li class="active"><a href="{% url 'cart' %}">Cart</a></li>
+                    {% else %}
                     <li><a href="{% url 'cart' %}">Cart</a></li>
+                    {% endif %}
+                    {% if is_checkout%}
+                    <li class="active"><a href="{% url 'checkout' %}">Checkout</a></li>
+                    {% else %}
                     <li><a href="{% url 'checkout' %}">Checkout</a></li>
+                    {% endif %}
                 </ul>
             </nav>
             <!-- Button Group -->
