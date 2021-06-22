@@ -45,8 +45,8 @@ class Article(Base):
         verbose_name = 'Article'
         verbose_name_plural = 'Articles'
 
-        def __str__(self):
-            return self.nom
+    def __str__(self):
+        return self.nom
 
 
 class Favorite(Base):
@@ -56,8 +56,8 @@ class Favorite(Base):
         verbose_name = 'Favorite'
         verbose_name_plural = 'Favorites'
 
-        def __str__(self):
-            return self.nom
+    def __str__(self):
+        return self.nom
 
 class Newsletter(Base):
     email = models.EmailField(max_length=254)
@@ -66,8 +66,8 @@ class Newsletter(Base):
         verbose_name = 'Newsletter'
         verbose_name_plural = 'Newsletter'
 
-        def __str__(self):
-            return self.email
+    def __str__(self):
+        return self.email
 
 class SocialNetwork(Base):
     nom = models.CharField(max_length=50)
@@ -78,8 +78,8 @@ class SocialNetwork(Base):
         verbose_name = 'SocialNetwork'
         verbose_name_plural = 'SocialNetwork'
 
-        def __str__(self):
-            return self.nom
+    def __str__(self):
+        return self.nom
 
 
 class Checkout(Base):
@@ -98,21 +98,17 @@ class Checkout(Base):
         verbose_name = 'Checkout'
         verbose_name_plural = 'Checkouts'
 
-        def __str__(self):
-            return self.first_name
+    def __str__(self):
+        return self.first_name
 
 class Website(Base):
     description_newsletter = HTMLField()
-    nom_site = models.CharField(max_length=50)
+    nom_site = models.ImageField()
     copyright = models.TextField()
 
     class Meta:
         verbose_name = 'Website'
         verbose_name_plural = 'Websites'
 
-        def __str__(self):
-            return self.nom_site
-
-
-
-
+    def __str__(self):
+        return f"self.nom_site"

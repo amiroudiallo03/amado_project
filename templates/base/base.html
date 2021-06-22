@@ -45,7 +45,7 @@
         <div class="mobile-nav">
             <!-- Navbar Brand -->
             <div class="amado-navbar-brand">
-                <a href="{% url 'index' %}"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
+                <a href="{% url 'index' %}"><img src="{{website.nom_site}}" alt=""></a>
             </div>
             <!-- Navbar Toggler -->
             <div class="amado-navbar-toggler">
@@ -100,17 +100,15 @@
             </div>
             <!-- Social Button -->
             <div class="social-info d-flex justify-content-between">
-                <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                {% for social in network %}
+                <a href="{{social.lien}}"><i class="{{social.icone}}" aria-hidden="true"></i></a>
+                {% endfor %}
             </div>
         </header>
         <!-- Header Area End -->
-
         {% block content %}
         
-        
+
         {% endblock %}
     </div>
 
@@ -123,16 +121,15 @@
                 <!-- Newsletter Text -->
                 <div class="col-12 col-lg-6 col-xl-7">
                     <div class="newsletter-text mb-100">
-                        <h2>Subscribe for a <span>25% Discount</span></h2>
-                        <p>Nulla ac convallis lorem, eget euismod nisl. Donec in libero sit amet mi vulputate consectetur. Donec auctor interdum purus, ac finibus massa bibendum nec.</p>
+                        {{website.description_newsletter | safe}}
                     </div>
                 </div>
                 <!-- Newsletter Form -->
                 <div class="col-12 col-lg-6 col-xl-5">
                     <div class="newsletter-form mb-100">
-                        <form action="#" method="post">
-                            <input type="email" name="email" class="nl-email" placeholder="Your E-mail">
-                            <input type="submit" value="Subscribe">
+                        <form action="#" method="post" id="app">{% csrf_token %}
+                            <input type="email" name="email" class="nl-email" placeholder="Your E-mail" v-model="email">
+                            <input type="submit" value="Subscribe" @click.prevent='sendmail'>
                         </form>
                     </div>
                 </div>
@@ -154,7 +151,8 @@
                         </div>
                         <!-- Copywrite Text -->
                         <p class="copywrite"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+{{website.copyright| safe}}nan2021
+nnnnnnnnnn
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                     </div>
                 </div>
@@ -201,7 +199,60 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="{% static 'js/plugins.js' %}"></script>
     <!-- Active js -->
     <script src="{% static 'js/active.js' %}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
+<script>
+    new Vue({
+        el: '#app',
+        delimiters : ['%{', '}'],
+        data: {
+            email: ''
+        },
+        methods:{
+            sendmail(){
+                if (!this.email){
+                    Swal.fire({
+                    icon: 'error',
+                    text: 'veuillez saisir un email ',
+                    showConfirmButton: false,
+                    timer : 2000
+                    })
+                }
+                else{
+                    let form = new FormData()
+                    form.append("email", JSON.stringify(this.email))
+                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                    axios.defaults.xsrfCookieName = 'csrftoken'
+                    
+                    axios.post("{% url 'postmail' %}", form)
+                    .then((response) =>{
+                        if (response.data.success){
+                           Swal.fire({
+                            icon: 'success',
+                            text: response.data.message,
+                            showConfirmButton: false,
+                            timer : 2000
+                            }) 
+                        }
+                        else{
+                           Swal.fire({
+                            icon: 'error',
+                            text: response.data.message,
+                          showConfirmButton: false,
+                            timer : 2000
+                            })
+                        }
+                    })
+                    .catch((e) => {
+                        console.log(e)
+                    })
+                }
 
+            }
+        }
+})
+
+</script>
 </html>

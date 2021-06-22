@@ -2,25 +2,24 @@
 {% load static %}
 {% block content %}
 
-
-    
+ 
         <!-- Product Catagories Area Start -->
         <div class="products-catagories-area clearfix">
             <div class="amado-pro-catagory clearfix">
-
+                {% for article in articles %}
                 <!-- Single Catagory -->
                 <div class="single-products-catagory clearfix">
                     <a href="{% url 'shop' %}">
-                        <img src="{% static 'img/bg-img/1.jpg' %}" alt="">
+                        <img src="{{article.image.url}}" alt="">
                         <!-- Hover Content -->
                         <div class="hover-content">
                             <div class="line"></div>
-                            <p>From $180</p>
-                            <h4>Modern Chair</h4>
+                            <p>From ${{article.prix}}</p>
+                            <h4>{{article.nom| title}}</h4>
                         </div>
                     </a>
                 </div>
-
+                    {% endfor %}
             </div>
         </div>
         <!-- Product Catagories Area End -->
