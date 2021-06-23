@@ -35,6 +35,7 @@ class Marque(Base):
 class Article(Base):
     nom = models.CharField(max_length=240)
     image = models.ImageField(upload_to="image_articles")
+    image_next = models.ImageField(upload_to="image_articles")
     prix = models.CharField(max_length=50)
     categorie = models.ForeignKey( Categorie, related_name="categorie_articles", on_delete=models.CASCADE)
     marque = models.ForeignKey( Marque, related_name="Marque_articles", on_delete=models.CASCADE)
@@ -112,3 +113,16 @@ class Website(Base):
 
     def __str__(self):
         return f"self.nom_site"
+
+class Cart(Base):
+    produit = models.ForeignKey(Article,related_name="cart_produit", on_delete=models.CASCADE)
+    quantite = models.IntegerField()
+
+    class Meta:
+        verbose_name = 'Cart'
+        verbose_name_plural = 'Cart'
+
+    def __str__(self):
+        return self.produit
+
+

@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="search-content">
-                        <form action="#" method="get">
+                        <form action="{% url 'searchbar' %}" method="get">
                             <input type="search" name="search" id="search" placeholder="Type your keyword...">
                             <button type="submit"><img src="{% static 'img/core-img/search.png' %}" alt=""></button>
                         </form>
@@ -188,6 +188,9 @@ nnnnnnnnnn
     </footer>
     <!-- ##### Footer Area End ##### -->
     <!-- Search Wrapper Area End -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     
     <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
     <script src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>
@@ -199,9 +202,6 @@ nnnnnnnnnn
     <script src="{% static 'js/plugins.js' %}"></script>
     <!-- Active js -->
     <script src="{% static 'js/active.js' %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 <script>
     new Vue({
@@ -232,7 +232,6 @@ nnnnnnnnnn
                            Swal.fire({
                             icon: 'success',
                             text: response.data.message,
-                            showConfirmButton: false,
                             timer : 2000
                             }) 
                         }
@@ -240,7 +239,7 @@ nnnnnnnnnn
                            Swal.fire({
                             icon: 'error',
                             text: response.data.message,
-                          showConfirmButton: false,
+                            showConfirmButton: false,
                             timer : 2000
                             })
                         }

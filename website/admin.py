@@ -39,3 +39,7 @@ class CheckoutAdmin(admin.ModelAdmin):
 @admin.register(models.Website)
 class WebsiteAdmin(admin.ModelAdmin):
     list_display = ('copyright','nom_site','date_add','date_update','status')
+
+@admin.register(models.Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('produit',)
