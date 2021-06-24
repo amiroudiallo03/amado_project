@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
+from website.cart import Cart 
 
 def index(request):
     is_index = True
@@ -64,7 +65,7 @@ def postmail(request):
     success, message = False, " "
     if request.method =="POST":
         email = json.loads(request.POST.get("email"))
-        if  email.isspace:
+        if  not email.isspace:
             message = 'remplir les champs'
         elif is_email(email):
             message = 'invalide'
@@ -88,6 +89,13 @@ def searchbar(request):
     else:
         articles =  models.Article.objects.filter(nom__icontains=search)
         return render(request, "index.html", locals())
+
+
+def cart_detail(request):
+    is_cart = True
+    cart = Cart(request)
+    return render(request, 'cart.html', locals())
+
 
 
 """ def cart_update(request):

@@ -34,8 +34,8 @@ class Marque(Base):
 
 class Article(Base):
     nom = models.CharField(max_length=240)
-    image = models.ImageField(upload_to="image_articles")
-    image_next = models.ImageField(upload_to="image_articles")
+    image = models.FileField(upload_to="image_articles")
+    image_next = models.FileField(upload_to="image_articles")
     prix = models.CharField(max_length=50)
     categorie = models.ForeignKey( Categorie, related_name="categorie_articles", on_delete=models.CASCADE)
     marque = models.ForeignKey( Marque, related_name="Marque_articles", on_delete=models.CASCADE)

@@ -151,8 +151,8 @@
                         </div>
                         <!-- Copywrite Text -->
                         <p class="copywrite"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-{{website.copyright| safe}}nan2021
-nnnnnnnnnn
+{{website.copyright| safe}}
+
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                     </div>
                 </div>
@@ -203,6 +203,9 @@ nnnnnnnnnn
     <!-- Active js -->
     <script src="{% static 'js/active.js' %}"></script>
 </body>
+ 
+    
+
 <script>
     new Vue({
         el: '#app',
@@ -252,6 +255,8 @@ nnnnnnnnnn
             }
         }
 })
+{% block scripts %}
 
+{% endblock %}
 </script>
 </html>
