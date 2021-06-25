@@ -18,11 +18,38 @@ def cart(request):
     is_cart = True
     website = models.Website.objects.filter(status=True).first()
     return render(request, 'cart.html')
-
+    
 def checkout(request):
     is_checkout = True
     website = models.Website.objects.filter(status=True).first()
-    return render(request, 'checkout.html')
+
+    return render(request,'checkout.html')
+@csrf_exempt
+def checkoutpost(request):
+    success, message = False, " "
+    if request.method == "POST":
+        firstname = request.POST.get("firstName")
+        lastname = request.POST.get("lastName")
+        companyname = request.POST.get("companyName")
+        email = request.POST.get("email")
+        pays = request.POST.get("pays")
+        adresse = request.POST.get("adresse")
+        ville = request.POST.get("ville")
+        zipcode = request.POST.get("zipCode")
+        phone = request.POST.get("phone")
+        commentaire = request.POST.get("commentaire")
+        
+        checkout = models.Checkout(first_name=firstname, last_name=lastname, company_name=companyname, email=email, pays=pays, adresse=adresse, ville=ville, zip_code=zipcode, phone=phone, commentaire=commentaire)
+        checkout.save()
+        print("save")
+        message = 'validé'
+        success = True
+
+        datas={
+            'message':message,
+            'success': success
+        }
+        return JsonResponse(datas, safe=False)
 
 def product_detail(request, id):
     is_product_detail = True
@@ -95,28 +122,3 @@ def cart_detail(request):
     is_cart = True
     cart = Cart(request)
     return render(request, 'cart.html', locals())
-
-
-
-""" def cart_update(request):
-    article_id = request.POST.get("article_id")
-    if article_id is not None:
-        try:
-            article_obj = article.objects.get(id=article_id)
-        except article.DoesNotExist:
-            print("l'article n'existe plus")
-        return redirect("index")
-    cart_obj = Cart.objects.new_or_get(request)
-
-    
-    new_obj = cart_obj.articles.add(article_obj)  
-    added = True
-
-    request.session["cart_items"] = cart_obj.articles.count()
-    
-    json_data = {
-    "added": added,
-    "removed": not added,
-    }
-    return JsonResponse(json_data, safe=False)
-    return redirect('index') """

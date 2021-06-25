@@ -24,3 +24,12 @@ def api_add_to_cart(request):
     print(cart)
     jsonresponse = {'success': True}
     return JsonResponse(jsonresponse , safe=False)
+
+def api_remove_from_cart(request):
+    data = json.loads(request.body)
+    article_id = str(data['article_id'])
+    
+    cart = Cart(request)
+    cart.remove(article_id)
+    jsonresponse = {'success': True}
+    return JsonResponse(jsonresponse , safe=False)

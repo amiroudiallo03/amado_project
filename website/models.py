@@ -86,13 +86,13 @@ class SocialNetwork(Base):
 class Checkout(Base):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=150)
-    company_name = models.CharField(max_length=150)
+    company_name = models.TextField()
     email = models.EmailField(max_length=254)
     pays = models.CharField(max_length=50)
     adresse = models.CharField(max_length=150)
     ville = models.CharField(max_length=50)
+    zip_code = models.CharField(max_length=150)
     phone = models.CharField(max_length=50)
-    code_postal = models.CharField(max_length=50)
     commentaire = models.TextField()
 
     class Meta:
@@ -124,5 +124,4 @@ class Cart(Base):
 
     def __str__(self):
         return self.produit
-
 
