@@ -65,7 +65,9 @@ def shop(request):
     if not category:
         articles = models.Article.objects.filter(status=True)
     else:
-        articles = models.Article.objects.filter(categorie__nom__icontains = category)
+        cat = get_object_or_404(models.Categorie, id= category)
+        articles = cat.categorie_articles.all()
+
 
     categories = models.Categorie.objects.filter(status=True).all()
     paginator = Paginator(articles, 4)

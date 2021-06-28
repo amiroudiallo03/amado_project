@@ -14,9 +14,9 @@
                     <ul>
                         {% for categorie in categories  %}
                          {% if is_active %}
-                        <li class="active"><a href="{% url 'shop' %}?category={{categorie.nom}}">{{categorie.nom}}</a></li>
+                        <li class="active"><a href="{% url 'shop' %}?category={{categorie.id}}">{{categorie.nom}}</a></li>
                         {% else %}
-                       <li><a href="{% url 'shop'%}?category={{categorie.nom}} ">{{categorie.nom}}</a></li> 
+                       <li><a href="{% url 'shop'%}?category={{categorie.id}} ">{{categorie.nom}}</a></li> 
                         {% endif %}
                         
                         {% endfor %}
