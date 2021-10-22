@@ -15,7 +15,8 @@
                         <div class="cart-table clearfix">
                             <table class="table table-responsive">
                                 <thead>
-                                
+
+                                    </tr>
                                     <tr>
                                         <th></th>
                                         <th>Name</th>
@@ -25,9 +26,21 @@
                                     
                                 </thead>
                                 <tbody>
+                                    <tr v-for="article in articles">
+                                        <td class="cart_product_img"><a href="#"><img :src="article.photo" alt="Product"></a>
 
+                                        </td>
+
+                                        <td>[[article.title]]<button @click.prevent="removeFromCart(article.id)" style="border: 50px; height: 40px; margin-bottom: 10px; border-radius: 10px; background-color: #fbb711; padding: 0 10px; color: white">Remove to cart</button></td>
+                                        <td>[[article.total_prix]]</td>
+                                        <td>
+                                            <span class="qty-minus" onclick="var effect = document.getElementById('qty2'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i  @click='decrementQuantity(article.id, article.quantity)' class="fa fa-minus" aria-hidden="true"></i></span>
+                                            [[article.quantity]]
+                                            <span class="qty-plus" onclick="var effect = document.getElementById('qty2'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true" @click.prevent='incrementQuantity(article.id , article.quantity)'></i></span>
+                                        </td>
+                                    </tr>
                                            
-                                    <tr>
+                                    <!-- <tr>
                                         <td class="cart_product_img">
                                             <a href="#"><img src="{{article.image.url}}" alt="Product"></a>
                                         </td>
@@ -36,22 +49,20 @@
                                             <button @click.prevent="removeFromCart({{ article.id }})" style="border: 50px; height: 40px; margin-bottom: 10px; border-radius: 10px; background-color: #fbb711; padding: 0 10px; color: white">Remove to cart</button>
                                         </td>
                                         <td class="price">
-                                            <span>{{article.prix}}</span>
-                                        </td>
+                                            <span>{{item.total_prix}}</span>
                                         <td class="qty">
                                             <div class="qty-btn d-flex">
-                                                <p>{{article.quantity}}</p>
+                                                
                                                 <div class="quantity">
-                                                    <span class="qty-minus" onclick="var effect = document.getElementById('qty2'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                                    <input type="number" class="qty-text" id="qty2" step="1" min="1" max="300" name="quantity" value="1">
-                                                    <span class="qty-plus" onclick="var effect = document.getElementById('qty2'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                                    <span class="qty-minus" onclick="var effect = document.getElementById('qty2'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i  @click='decrementQuantity({{ article.id }}, {{item.quantity}})' class="fa fa-minus" aria-hidden="true"></i></span>
+                                                    <p>{{item.quantity}}</p>
+                                                    <span class="qty-plus" onclick="var effect = document.getElementById('qty2'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true" @click='incrementQuantity({{ article.id }}, {{item.quantity}})'></i></span>
                                                 </div>
                                             </div>
                                         </td>
-                                    </tr
+                                    </tr -->
                                             
                                             
-                                     
                                 </tbody>
                             </table>
                         </div>
@@ -60,6 +71,7 @@
                             {% else %}
                            <h5>Your Cart is empty </h5> 
                         {% endif %}
+                        
                     </div>
                     <div class="col-12 col-lg-4">
                         <div class="cart-summary">
@@ -67,10 +79,10 @@
                             <ul class="summary-table">
                                 <li><span>subtotal:</span> <span>$140.00</span></li>
                                 <li><span>delivery:</span> <span>Free</span></li>
-                                <li><span>total:</span> <span>$140.00</span></li>
+                                <li v-for='article in articles'><span>total:</span> <span>[[article.total_price]]</span></li>
                             </ul>
                             <div class="cart-btn mt-100">
-                                <a href="cart.html" class="btn amado-btn w-100">Checkout</a>
+                                <a href="{% url 'index' %}" class="btn amado-btn w-100">Checkout</a>
                             </div>
                         </div>
                     </div>
@@ -90,19 +102,24 @@
         delimiters : ['[[', ']]'],
         data () {
             return {
-
+                articles: [{{ productsstring |safe}}]
             }
         },
         mounted() {
             console.log('Mounted');
+            console.log(this.articles);
         },
         methods:{
-             removeFromCart(article_id){
+            decrementQuantity(article_id, quantity){
                 console.log('Article_id:', article_id);
+                
 
-                var data = {'article_id': article_id, 'update': false, 'quantity' : 1 };
+                var data = {
+                    'article_id': article_id,
+                    'update': true,
+                    'quantity' : parseInt(quantity) - 1 };
 
-                fetch('/api/remove_from_cart/', {
+                fetch('/api/add_to_cart/', {
                     method: 'POST',
                     headers: {
                         'Content_Type': 'application/json',
@@ -119,8 +136,61 @@
                     console.log('error 2');
                     console.log(error);
                 })
+            },
+            incrementQuantity(article_id, quantity){
+                console.log('Article_id:', article_id);
+                
+
+                var data = {
+                    'article_id': article_id,
+                    'update': true,
+                    'quantity' : parseInt(quantity) + 1 };
+
+                fetch('/api/add_to_cart/', {
+                    method: 'POST',
+                    headers: {
+                        'Content_Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token}}'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(data)
+                })
+                .then((response) => {
+                        
+                    console.log(response)
+                })
+                .catch(function (error) {
+                    console.log('error 2');
+                    console.log(error);
+                })
+            
+            },
+            
+            removeFromCart(article_id){
+                console.log('Article_id:', article_id);
+
+                var data = {'article_id': article_id, 'update': false, 'quantity' : 1 };
+
+                fetch('/api/remove_from_cart/', {
+                    method: 'POST',
+                    headers: {
+                        'Content_Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token}}'
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(data)
+                })
+                .then((response) => {
+                        
+                    console.log(response)
+                    this.articles = this.articles.filter(article => article.id !== article_id)
+                })
+                .catch(function (error) {
+                    console.log('error 2');
+                    console.log(error);
+                })
             }
         }
-    });
+    })
 </script>
 {% endblock %}

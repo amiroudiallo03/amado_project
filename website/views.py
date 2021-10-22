@@ -123,4 +123,17 @@ def searchbar(request):
 def cart_detail(request):
     is_cart = True
     cart = Cart(request)
-    return render(request, 'cart.html', locals())
+    productsstring = ''
+
+    for item in cart:
+        article = item['article']
+
+        b = "{'id':'%s', 'title':'%s', 'prix':'%s', 'quantity':'%s', 'total_prix':'%s', 'photo':'%s'}," % (article.id, article.nom, article.prix, item['quantity'], item['total_prix'], article.image.url)
+
+        productsstring = productsstring + b
+    
+    context= {
+        'cart': cart,
+        'productsstring':productsstring
+    }
+    return render(request, 'cart.html', context)

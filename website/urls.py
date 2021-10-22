@@ -3,6 +3,7 @@ from django.urls import path
 from . import views 
 from .api import api_add_to_cart
 from .api import api_remove_from_cart
+from graphene_django.views import GraphQLView
 
 urlpatterns = [
     path('', views.index , name='index'),
@@ -17,4 +18,7 @@ urlpatterns = [
    #API
     path('api/add_to_cart/', api_add_to_cart , name='api_add_to_cart'),
     path('api/remove_from_cart/', api_remove_from_cart , name='api_remove_from_cart'),
+    #path('api//', api_remove_from_cart , name='api_remove_from_cart'),
+    path("graphql", GraphQLView.as_view(graphiql=True)),
 ]
+
