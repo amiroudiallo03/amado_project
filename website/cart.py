@@ -54,3 +54,10 @@ class Cart(object):
     def get_total_length(self):
 
         return sum(int(item['quantity']) for item in self.cart.values())
+
+    def get_total_cost(self):
+        
+        if "total_prix" in self.cart.values():
+            return sum(float(item['total_price']) for item in self)
+        else:
+            return 0

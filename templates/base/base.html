@@ -209,11 +209,14 @@
     const store = new Vuex.Store({
         state: {
 					numItems: 0,
-					
+					totalCost: 0,
 				},
         mutations: {
             increment (state, quantity) {
             state.numItems += quantity;
+            },
+            changeTotalCost(state, newCost){
+                state.totalCost += newCost;
             }
         }
     });
@@ -225,7 +228,10 @@
         computed: {
             numItems: function () { 
                 return store.state.numItems
-             }
+             },
+            totalCost: function(){
+                return store.state.totalCost
+            }
         },
     })
  </script>
