@@ -1,0 +1,294 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title  -->
+    <title>Amado - Furniture Ecommerce Template | Home</title>
+
+    <!-- Favicon  -->
+    <link rel="icon" href="{% static 'img/core-img/favicon.ico' %}">
+
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="{% static 'css/core-style.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+</head>
+
+<body>
+    <!-- Search Wrapper Area Start -->
+    <div class="search-wrapper section-padding-100">
+        <div class="search-close">
+            <i class="fa fa-close" aria-hidden="true"></i>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="search-content">
+                        <form action="{% url 'searchbar' %}" method="get">
+                            <input type="search" name="search" id="search" placeholder="Type your keyword...">
+                            <button type="submit"><img src="{% static 'img/core-img/search.png' %}" alt=""></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-content-wrapper d-flex clearfix">
+            <!-- Mobile Nav (max width 767px)-->
+        <div class="mobile-nav">
+            <!-- Navbar Brand -->
+            <div class="amado-navbar-brand">
+                <a href="{% url 'index' %}"><img src="{{website.nom_site}}" alt=""></a>
+            </div>
+            <!-- Navbar Toggler -->
+            <div class="amado-navbar-toggler">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <!-- Header Area Start -->
+        <header class="header-area clearfix">
+            <!-- Close Icon -->
+            <div class="nav-close">
+                <i class="fa fa-close" aria-hidden="true"></i>
+            </div>
+            <!-- Logo -->
+            <div class="logo">
+                <a href="{% url 'index' %}"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
+            </div>
+            <!-- Amado Nav -->
+            <nav class="amado-nav">
+                <ul>{% if is_index%}
+                    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+                    {% else %}
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    {% endif %}
+                    {% if is_shop%}
+                    <li class="active"><a href="{% url 'shop' %}">Shop</a></li>
+                    {% else %}
+                    <li><a href="{% url 'shop' %}">Shop</a></li>
+                    {% endif %}
+                    {% if is_cart%}
+                    <li class="active"><a href="{% url 'cart' %}">Cart</a></li>
+                    {% else %}
+                    <li><a href="{% url 'cart' %}">Cart</a></li>
+                    {% endif %}
+                    {% if is_checkout%}
+                    <li class="active"><a href="{% url 'checkout' %}">Checkout</a></li>
+                    {% else %}
+                    <li><a href="{% url 'checkout' %}">Checkout</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <!-- Button Group -->
+            <div class="amado-btn-group mt-30 mb-100">
+                <a href="#" class="btn amado-btn mb-15">%Discount%</a>
+                <a href="#" class="btn amado-btn active">New this week</a>
+            </div>
+            <!-- Cart Menu -->
+            <div class="cart-fav-search mb-100" id="navbarapp">
+                <a href="{% url 'cart' %}" class="cart-nav"><img src="{% static 'img/core-img/cart.png' %}" alt=""> Cart <span>(%{numItems})</span></a>
+                <a href="#" class="fav-nav"><img src="{% static 'img/core-img/favorites.png' %}" alt=""> Favourite</a>
+                <a href="#" class="search-nav"><img src="{% static 'img/core-img/search.png' %}" alt=""> Search</a>
+            </div>
+            <!-- Social Button -->
+            <div class="social-info d-flex justify-content-between">
+                {% for social in network %}
+                <a href="{{social.lien}}"><i class="{{social.icone}}" aria-hidden="true"></i></a>
+                {% endfor %}
+            </div>
+        </header>
+        <!-- Header Area End -->
+        {% block content %}
+        
+
+        {% endblock %}
+    </div>
+
+        
+
+    <!-- ##### Newsletter Area Start ##### -->
+    <section class="newsletter-area section-padding-100-0">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Newsletter Text -->
+                <div class="col-12 col-lg-6 col-xl-7">
+                    <div class="newsletter-text mb-100">
+                        {{website.description_newsletter | safe}}
+                    </div>
+                </div>
+                <!-- Newsletter Form -->
+                <div class="col-12 col-lg-6 col-xl-5">
+                    <div class="newsletter-form mb-100">
+                        <form action="#" method="post" id="app">{% csrf_token %}
+                            <input type="email" name="email" class="nl-email" placeholder="Your E-mail" v-model="email">
+                            <input type="submit" value="Subscribe" @click.prevent='sendmail'>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Newsletter Area End ##### -->
+
+    <!-- ##### Footer Area Start ##### -->
+    <footer class="footer_area clearfix">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Single Widget Area -->
+                <div class="col-12 col-lg-4">
+                    <div class="single_widget_area">
+                        <!-- Logo -->
+                        <div class="footer-logo mr-50">
+                            <a href="index.html"><img src="img/core-img/logo2.png" alt=""></a>
+                        </div>
+                        <!-- Copywrite Text -->
+                        <p class="copywrite"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+{{website.copyright| safe}}
+
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    </div>
+                </div>
+                <!-- Single Widget Area -->
+                <div class="col-12 col-lg-8">
+                    <div class="single_widget_area">
+                        <!-- Footer Menu -->
+                        <div class="footer_menu">
+                            <nav class="navbar navbar-expand-lg justify-content-end">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#footerNavContent" aria-controls="footerNavContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+                                <div class="collapse navbar-collapse" id="footerNavContent">
+                                    <ul class="navbar-nav ml-auto">
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="{% url 'index' %}">Home</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'shop' %}">Shop</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'cart' %}">Cart</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ##### Footer Area End ##### -->
+    <!-- Search Wrapper Area End -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vuex@3.6.2/dist/vuex.js"></script>
+    
+    <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->
+    <script src="{% static 'js/jquery/jquery-2.2.4.min.js' %}"></script>
+    <!-- Popper js -->
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <!-- Bootstrap js -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- Plugins js -->
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <!-- Active js -->
+    <script src="{% static 'js/active.js' %}"></script>
+</body>
+
+ <script>
+    const store = new Vuex.Store({
+        state: {
+					numItems: 0,
+					totalCost: 0,
+				},
+        mutations: {
+            increment (state, quantity) {
+            state.numItems += quantity;
+            },
+            changeTotalCost(state, newCost){
+                state.totalCost += newCost;
+            }
+        }
+    });
+
+    var navbarapp = new Vue({
+        el:'#navbarapp',
+        delimiters: ['%{', '}'],
+        store: store,
+        computed: {
+            numItems: function () { 
+                return store.state.numItems
+             },
+            totalCost: function(){
+                return store.state.totalCost
+            }
+        },
+    })
+ </script>
+    
+
+
+{% block scripts %}
+
+{% endblock %}
+<script>
+    new Vue({
+        el: '#app',
+        delimiters : ['%{', '}'],
+        data: {
+            email: ''
+        },
+        methods:{
+            sendmail(){
+                if (!this.email){
+                    Swal.fire({
+                    icon: 'error',
+                    text: 'veuillez saisir un email ',
+                    showConfirmButton: false,
+                    timer : 2000
+                    })
+                }
+                else{
+                    let form = new FormData()
+                    form.append("email", JSON.stringify(this.email))
+                    axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                    axios.defaults.xsrfCookieName = 'csrftoken'
+                    
+                    axios.post("{% url 'postmail' %}", form)
+                    .then((response) =>{
+                        if (response.data.success){
+                           Swal.fire({
+                            icon: 'success',
+                            text: response.data.message,
+                            timer : 2000
+                            }) 
+                        }
+                        else{
+                           Swal.fire({
+                            icon: 'error',
+                            text: response.data.message,
+                            showConfirmButton: false,
+                            timer : 2000
+                            })
+                        }
+                    })
+                    .catch((e) => {
+                        console.log(e)
+                    })
+                }
+
+            }
+        }
+})
+</script>
+</html>
