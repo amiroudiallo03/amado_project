@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-&e8m9toesbsbt^2jcjdd=e%#fq^_z)dhac1i6)57!=wlvya5r=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["https://amadoshop.herokuapp.com/"]
+ALLOWED_HOSTS = ["https://amadoshop.herokuapp.com/", '127.0.0.1']
 
 # Cart
 SESSION_COOKIE_AGE = 86400
