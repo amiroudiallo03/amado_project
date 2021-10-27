@@ -95,6 +95,9 @@ class Checkout(Base):
     phone = models.CharField(max_length=50)
     commentaire = models.TextField()
 
+    paid = models.BooleanField(default=False)
+    paid_amount = models.FloatField(blank=True, null=True)
+
     class Meta:
         verbose_name = 'Checkout'
         verbose_name_plural = 'Checkouts'
@@ -125,3 +128,15 @@ class Cart(Base):
     def __str__(self):
         return self.produit
 
+class OrderItem(Base):
+    checkout = models.ForeignKey('Checkout', related_name='orderitem_checkout',on_delete=models.CASCADE)
+    article = models.ForeignKey('Article', related_name='orderitem_article',on_delete=models.CASCADE)
+    prix = models.FloatField()
+    quantity = models.IntegerField(default=1)
+
+    class Meta:
+        verbose_name = 'OrderItem'
+        verbose_name_plural = 'OrderItem'
+
+    def __str__(self):
+        return self.checkout

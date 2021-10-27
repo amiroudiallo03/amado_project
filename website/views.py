@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from . import models
 import json
 from django.http import JsonResponse
@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from website.cart import Cart 
+
 
 
 def index(request):
@@ -40,17 +41,31 @@ def checkoutpost(request):
         phone = request.POST.get("phone")
         commentaire = request.POST.get("commentaire")
         
-        checkout = models.Checkout(first_name=firstname, last_name=lastname, company_name=companyname, email=email, pays=pays, adresse=adresse, ville=ville, zip_code=zipcode, phone=phone, commentaire=commentaire)
-        checkout.save()
+        order = models.Checkout.objects.create(first_name=firstname, last_name=lastname, company_name=companyname, email=email, pays=pays, adresse=adresse, ville=ville, zip_code=zipcode, phone=phone, commentaire=commentaire)
+        paid= True
+        cart = Cart(request)
+        
+        if paid:
+            #order = Checkout.object.get(pk=orderid)
+            order.paid = True
+            order.paid_amount = cart.get_total_cost()
+            order.save()
+            cart.clear()
+
+            
+
+            for item in cart:
+                models.OrderItem.objects.create(checkout=order, article=item['article'], prix=item['prix'],quantity=item['quantity']) 
+                models.OrderItem.save
         print("save")
         message = 'validé'
         success = True
-
         datas={
             'message':message,
             'success': success
         }
         return JsonResponse(datas, safe=False)
+    return redirect('/')
 
 def product_detail(request, id):
     is_product_detail = True

@@ -34,7 +34,7 @@ class SocialNetworkAdmin(admin.ModelAdmin):
 
 @admin.register(models.Checkout)
 class CheckoutAdmin(admin.ModelAdmin):
-    list_display = ('list_display','last_name','email','pays','phone','date_add','date_update','status')
+    list_display = ('first_name','last_name','email','pays','phone','date_add','date_update','status')
 
 @admin.register(models.Website)
 class WebsiteAdmin(admin.ModelAdmin):
@@ -43,3 +43,8 @@ class WebsiteAdmin(admin.ModelAdmin):
 @admin.register(models.Cart)
 class CartAdmin(admin.ModelAdmin):
     list_display = ('produit',)
+
+@admin.register(models.OrderItem)
+
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ('checkout','article', 'prix', 'quantity')

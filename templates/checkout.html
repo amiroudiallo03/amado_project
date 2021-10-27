@@ -77,9 +77,9 @@
                         <div class="cart-summary">
                             <h5>Cart Total</h5>
                             <ul class="summary-table">
-                                <li><span>subtotal:</span> <span>$140.00</span></li>
+                                <li><span>subtotal:</span> <span>$[[totalCost]]</span></li>
                                 <li><span>delivery:</span> <span>Free</span></li>
-                                <li><span>total:</span> <span>$140.00</span></li>
+                                <li><span>total:</span> <span>$[[totalCost]]</span></li>
                             </ul>
 
                             <div class="payment-method">
@@ -104,15 +104,17 @@
             </div>
         </div>
     </div>
+{% endblock content %}
     <!-- ##### Main Content Wrapper End ##### -->
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<script>
+{% block scripts %}
     new Vue({
         el: "#checkout",
-        delimiters : ['%{', '}'],
+        delimiters : ['[[', ']]'],
+        store: store,
         data:{
             firstName : '',
             lastName : '',
@@ -124,6 +126,14 @@
             zipCode: '',
             phone: '',
             commentaire: '',
+        },
+        computed: {
+            numItems: function () { 
+                return store.state.numItems
+             },
+            totalCost: function(){
+                return store.state.totalCost
+            }
         },
         methods:{
             checkoutpost(){
@@ -177,5 +187,5 @@
             }
         }
     })
-</script>
-{% endblock content %}
+{% endblock %}
+
