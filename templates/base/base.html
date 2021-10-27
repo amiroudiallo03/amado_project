@@ -206,10 +206,11 @@
 </body>
 
  <script>
-    const store = new Vuex.Store({
+
+    var store = new Vuex.Store({
         state: {
-					numItems: 0,
-					totalCost: 0,
+					numItems: {{ cart.get_total_length }},
+					totalCost: {{ cart.get_total_cost }},
 				},
         mutations: {
             increment (state, quantity) {
@@ -234,14 +235,11 @@
             }
         },
     })
- </script>
     
+    {% block scripts %}
 
+    {% endblock %}
 
-{% block scripts %}
-
-{% endblock %}
-<script>
     new Vue({
         el: '#app',
         delimiters : ['%{', '}'],
@@ -291,4 +289,6 @@
         }
 })
 </script>
+
+
 </html>

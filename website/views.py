@@ -7,6 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 from website.cart import Cart 
 
+
 def index(request):
     is_index = True
     articles = models.Article.objects.filter(status=True)
@@ -124,7 +125,7 @@ def cart_detail(request):
     is_cart = True
     cart = Cart(request)
     productsstring = ''
-
+    
     for item in cart:
         article = item['article']
 
