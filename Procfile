@@ -1,1 +1,1 @@
-web: gunicorn amado_projet.wsgi --log-file -
+web: gunicorn amado_project.wsgi
