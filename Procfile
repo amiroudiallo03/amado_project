@@ -1,1 +1,1 @@
-web: gunicorn amado_project.wsgi
+web: gunicorn amado_projet.wsgi
