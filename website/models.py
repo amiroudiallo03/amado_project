@@ -36,7 +36,7 @@ class Article(Base):
     nom = models.CharField(max_length=240)
     image = models.FileField(upload_to="image_articles")
     image_next = models.FileField(upload_to="image_articles")
-    prix = models.CharField(max_length=50)
+    prix = models.IntegerField()
     categorie = models.ForeignKey( Categorie, related_name="categorie_articles", on_delete=models.CASCADE)
     marque = models.ForeignKey( Marque, related_name="Marque_articles", on_delete=models.CASCADE)
     description = models.TextField()
@@ -131,7 +131,7 @@ class Cart(Base):
 class OrderItem(Base):
     checkout = models.ForeignKey('Checkout', related_name='orderitem_checkout',on_delete=models.CASCADE)
     article = models.ForeignKey('Article', related_name='orderitem_article',on_delete=models.CASCADE)
-    prix = models.FloatField()
+    prix = models.IntegerField()
     quantity = models.IntegerField(default=1)
 
     class Meta:
