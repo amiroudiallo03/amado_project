@@ -1,3 +1,7 @@
 {
+<<<<<<< HEAD
     "python.pythonPath": "env/bin/python"
+=======
+    "python.pythonPath": "venv/bin/python"
+>>>>>>> 558a607... article nom
 }
